@@ -17,29 +17,33 @@ export class EmailService {
     });
   }
 
-  sendEmail(to: string) {
-    const input = {
-      Source: config.adminEmail,
-      ReplyToAddresses: [],
-      Destination: {
-        ToAddresses: [to],
-      },
-      Message: {
-        Subject: {
-          Data: 'STRING_VALUE', // required
-          Charset: 'UTF-8',
+  sendInvites(to: string, filename: string, id: string) {
+    const allEmails = to.split(',');
+
+    for (const eachEmail of allEmails) {
+      const input = {
+        Source: config.adminEmail,
+        ReplyToAddresses: [],
+        Destination: {
+          ToAddresses: [eachEmail],
         },
-        Body: {
-          Text: {
-            Data: 'STRING_VALUE',
+        Message: {
+          Subject: {
+            Data: 'Document signature invite', // required
             Charset: 'UTF-8',
           },
+          Body: {
+            Text: {
+              Data: 'STRING_VALUE',
+              Charset: 'UTF-8',
+            },
+          },
         },
-      },
-    };
+      };
 
-    console.log({ input: JSON.stringify(input) });
-    const command = new SendEmailCommand(input);
-    return this.client.send(command);
+      // could be optimized
+      const command = new SendEmailCommand(input);
+      return this.client.send(command);
+    }
   }
 }

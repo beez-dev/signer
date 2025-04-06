@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { FileService } from './file.service';
 
 @Controller('file')
@@ -8,6 +8,15 @@ export class FileController {
   @Get('uploads')
   @HttpCode(HttpStatus.OK)
   async getPresignedUrl(@Query('fileName') fileName: string) {
-    return { url: await this.fileService.getPresignedUploadUrl(fileName) };
+    return this.fileService.getPresignedUploadUrl(fileName);
+  }
+
+  @Get('addone')
+  @HttpCode(HttpStatus.OK)
+  async addRecord() {
+    return {
+      statusCode: 200,
+      databases: 2,
+    };
   }
 }

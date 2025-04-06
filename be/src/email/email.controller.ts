@@ -1,13 +1,17 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { EmailService } from './email.service';
 
-@Controller('email')
+@Controller('emails')
 export class EmailController {
-    constructor(private readonly emailService: EmailService) {}
+  constructor(private readonly emailService: EmailService) {}
 
-    @Get('invite')
-    @HttpCode(HttpStatus.OK)
-    async sendEmailInvite() {
-        return this.emailService.sendEmail('');
-    }
+  @Post('invite')
+  @HttpCode(HttpStatus.OK)
+  async sendEmailInvite(
+    @Body('emails') emails: string,
+    @Body('filename') filename: string,
+    @Body('id') id: string,
+  ) {
+    return this.emailService.sendInvites(emails, filename, id);
+  }
 }

@@ -1,6 +1,6 @@
 import config from '../config';
 
-const { url: apiUrl } = config;
+const {url: apiUrl} = config;
 
 export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -50,7 +50,10 @@ export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
         } else {
             console.log('File uploaded successfully.');
         }
+
+        return data.id
     } catch (error) {
         console.error('Unexpected error:', error);
     }
 }
+

@@ -23,7 +23,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
     const uploadFileCallback = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
         // Simple implementation to indicate uploading state
         setUploadState(true);
-        const id = await uploadFile(e);
+        const id = await uploadFile(e, ownerEmail);
         setUploadedId(id);
         setFile(e?.target?.files?.[0] as File);
         setUploadState(false)
@@ -38,6 +38,10 @@ export function FileInput({ownerEmail}: FileInputProps) {
             return;
         }
 
+        if (allEmails.length > 5) {
+            alert('Cannot invite more than 5 people.');
+            return;
+        }
 
         await sendInvites(ownerEmail, allEmails, uploadedId, file.name)
     }, [uploadedId, file, ownerEmail])

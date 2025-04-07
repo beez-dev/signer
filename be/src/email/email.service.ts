@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
 import config from '../config';
 import { FileService } from '../file/file.service';
+import { hash } from '../util/crypto';
 
 @Injectable()
 export class EmailService {
@@ -18,12 +19,17 @@ export class EmailService {
     });
   }
 
-  sendInvites(
+  async sendInvites(
     ownerEmail: string,
     emails: string[],
     pathId: string,
     fileName: string,
   ) {
+    const data = await this.fileService.getPresignedDownloadUrl(
+      pathId,
+      fileName,
+    );
+
     for (const eachEmail of emails) {
       const input = {
         Source: config.adminEmail,
@@ -40,8 +46,8 @@ export class EmailService {
             Text: {
               Data: `Signer:\n
                     You have been invited to sign ${fileName} by : ${ownerEmail}.\n
-                    Please click on the link to view the document: ___. \n
-                    Please click the link to accept it: ${config.baseUrl}?pathId=${pathId}&fileName=${fileName}`, // Accepting: Basic form of signing
+                    Please click on the link to view the document: ${data.url}. \n
+                    Please click the link to accept it: ${config.baseUrl}?pathId=${pathId}&fileName=${fileName}&token=${hash(eachEmail)}`, // Accepting: Basic form of signing
 
               Charset: 'UTF-8',
             },

@@ -8,6 +8,7 @@ import config from '../config';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { generateRandomString } from '../util/random';
 import { DbService } from '../db/db.service';
+import { hash } from '../util/crypto';
 
 @Injectable()
 export class FileService {
@@ -55,9 +56,32 @@ export class FileService {
     return { url, pathId, fileName };
   }
 
-  async addRecord(ownerEmail: string, pathId: string, fileName: string) {
-    return this.dbService.db
-      .collection('uploads')
-      .insertOne({ [`${ownerEmail}-${pathId}`]: `${pathId}/${fileName}` });
+  async addRecord(
+    ownerEmail: string,
+    invites: string[],
+    pathId: string,
+    fileName: string,
+  ) {
+    const data = await this.dbService.db
+      .collection('records')
+      .findOne({ pathId });
+
+    if (data) {
+      throw Error('Record already exists');
+    }
+
+    const inviteStatus = invites.reduce((acc, mail) => {
+      return { ...acc, [hash(mail)]: 'pending' };
+    }, {});
+
+    return this.dbService.db.collection('records').insertOne({
+      pathId,
+      fileName,
+      ownerEmail,
+      invites,
+      status: inviteStatus,
+    });
   }
+
+  async accept(pathId: string) {}
 }

@@ -31,9 +31,15 @@ export class FileController {
   @Post('records')
   @HttpCode(HttpStatus.OK)
   async addRecord(
-    @Body() body: { ownerEmail: string; pathId: string; fileName: string },
+    @Body()
+    body: {
+      ownerEmail: string;
+      invites: string[];
+      pathId: string;
+      fileName: string;
+    },
   ) {
-    const { ownerEmail, pathId, fileName } = body;
-    return this.fileService.addRecord(ownerEmail, pathId, fileName);
+    const { ownerEmail, invites, pathId, fileName } = body;
+    return this.fileService.addRecord(ownerEmail, invites, pathId, fileName);
   }
 }

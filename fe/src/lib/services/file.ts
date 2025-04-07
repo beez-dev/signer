@@ -2,7 +2,7 @@ import config from '../config';
 
 const {url: apiUrl} = config;
 
-export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
+export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>, ownerEmail: string) {
     try {
         const input = e.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) {
@@ -47,26 +47,6 @@ export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
 
         if (!uploadResponse.ok) {
             console.error('File upload failed.');
-            return;
-        }
-
-        const recordResponse = await fetch(
-            `${apiUrl}/file/records`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ownerEmail: 'email',
-                    pathId: data.pathId,
-                    fileName: selectedFile.name
-                }),
-            }
-        );
-
-        if (!recordResponse.ok) {
-            console.error(`Record couldn't be added.`);
             return;
         }
 

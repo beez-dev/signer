@@ -47,11 +47,33 @@ export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
 
         if (!uploadResponse.ok) {
             console.error('File upload failed.');
-        } else {
-            console.log('File uploaded successfully.');
+            return;
         }
 
-        return data.id
+        const recordResponse = await fetch(
+            `${apiUrl}/file/records`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ownerEmail: 'email',
+                    pathId: data.pathId,
+                    fileName: selectedFile.name
+                }),
+            }
+        );
+
+        if (!recordResponse.ok) {
+            console.error(`Record couldn't be added.`);
+            return;
+        }
+
+
+        console.log('File uploaded successfully.');
+
+        return data.pathId
     } catch (error) {
         console.error('Unexpected error:', error);
     }

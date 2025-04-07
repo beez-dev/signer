@@ -8,10 +8,15 @@ export class EmailController {
   @Post('invite')
   @HttpCode(HttpStatus.OK)
   async sendEmailInvite(
-    @Body('emails') emails: string,
-    @Body('filename') filename: string,
-    @Body('id') id: string,
+    @Body()
+    body: {
+      ownerEmail: string;
+      emails: string[];
+      pathId: string;
+      fileName: string;
+    },
   ) {
-    return this.emailService.sendInvites(emails, filename, id);
+    const { ownerEmail, emails, pathId, fileName } = body;
+    return this.emailService.sendInvites(ownerEmail, emails, pathId, fileName);
   }
 }

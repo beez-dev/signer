@@ -1,4 +1,12 @@
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { FileService } from './file.service';
 
 @Controller('file')
@@ -7,16 +15,25 @@ export class FileController {
 
   @Get('uploads')
   @HttpCode(HttpStatus.OK)
-  async getPresignedUrl(@Query('fileName') fileName: string) {
+  async getPresignedUploadUrl(@Query('fileName') fileName: string) {
     return this.fileService.getPresignedUploadUrl(fileName);
   }
 
-  @Get('addone')
+  @Get('downloads')
   @HttpCode(HttpStatus.OK)
-  async addRecord() {
-    return {
-      statusCode: 200,
-      databases: 2,
-    };
+  async getPresignedDownloadUrl(
+    @Query('pathId') pathId,
+    @Query('fileName') fileName: string,
+  ) {
+    return this.fileService.getPresignedDownloadUrl(pathId, fileName);
+  }
+
+  @Post('records')
+  @HttpCode(HttpStatus.OK)
+  async addRecord(
+    @Body() body: { ownerEmail: string; pathId: string; fileName: string },
+  ) {
+    const { ownerEmail, pathId, fileName } = body;
+    return this.fileService.addRecord(ownerEmail, pathId, fileName);
   }
 }

@@ -2,11 +2,15 @@ import config from "@/lib/config";
 
 const {url: apiUrl} = config;
 
-export async function sendInvites(emails: string, fileName: string, id: string) {
+export async function sendInvites(ownerEmail: string, emails: string[], pathId: string, fileName: string) {
     return fetch(
-        `${apiUrl}/emails/invite`, {
+        `${apiUrl}/emails/invite`,
+        {
             method: 'POST',
-            body: JSON.stringify({emails, fileName, id})
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ownerEmail, emails, pathId, fileName})
         }
     );
 }

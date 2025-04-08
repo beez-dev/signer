@@ -28,6 +28,13 @@ export class FileController {
     return this.fileService.getPresignedDownloadUrl(pathId, fileName);
   }
 
+  // NOTE: without authentication any data is accessible given email has a record
+  @Get('records')
+  @HttpCode(HttpStatus.OK)
+  async getRecords(@Query('ownerEmail') ownerEmail: string) {
+    return this.fileService.getRecords(ownerEmail);
+  }
+
   @Post('records')
   @HttpCode(HttpStatus.OK)
   async addRecord(

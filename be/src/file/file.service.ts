@@ -24,6 +24,15 @@ export class FileService {
     });
   }
 
+  async getRecords(ownerEmail: string) {
+    return await this.dbService.db.collection('records').findOne(
+      {
+        ownerEmail,
+      },
+      { projection: { fileName: 1, status: 1, _id: 0 } },
+    );
+  }
+
   async getPresignedUploadUrl(filename: string) {
     const pathId = generateRandomString();
 

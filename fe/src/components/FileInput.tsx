@@ -53,6 +53,9 @@ export function FileInput({ownerEmail}: FileInputProps) {
         // NOTE: Could use something like tanstack
         setIsSendingInvite(true)
         await sendInvites(ownerEmail, allEmails, uploadedId, file.name)
+        getAllRecords(ownerEmail).then((data) => {
+            setAllRecords(data);
+        })
         setIsSendingInvite(false);
     }, [uploadedId, file, ownerEmail])
 
@@ -95,6 +98,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
             </div>
 
             {allRecords.map((eachRecord, idx) => {
+                // Note: better to not use idx as key
                 return <div className="border border-gray-300 min-w-32 p-8 rounded-2xl" key={idx}>
                     <div>{eachRecord.fileName}</div>
                     <div className="text-gray-400">

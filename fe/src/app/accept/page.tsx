@@ -30,7 +30,7 @@ export default function Page() {
 
     if (isAccepting) {
         return <div className="flex flex-row items-center justify-center gap-x-4 text-3xl">
-            <div className="text-2xl">Uploading documents...</div>
+            <div className="text-2xl">Verifying documents...</div>
             <Spinner size="sm"
                      className="bg-black dark:bg-white"/></div>
     }

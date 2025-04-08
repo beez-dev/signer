@@ -59,3 +59,13 @@ export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>, ownerEm
     }
 }
 
+export async function acceptInvite(pathId: string, token: string) {
+    const response = await fetch(
+        `${apiUrl}/file/accept?pathId=${pathId}&token=${token}`,
+    );
+
+    if (!response.ok) {
+        console.error('File upload failed.');
+        throw Error('File upload failed.');
+    }
+}

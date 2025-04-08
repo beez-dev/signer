@@ -83,5 +83,26 @@ export class FileService {
     });
   }
 
-  async accept(pathId: string) {}
+  async accept(pathId: string, token: string) {
+    const record = await this.dbService.db.collection('records').findOne({
+      pathId,
+      [`status.${token}`]: 'pending',
+    });
+
+    if (!record) {
+      throw Error('Record not found.');
+    }
+
+    return this.dbService.db.collection('records').updateOne(
+      {
+        pathId,
+        [`status.${token}`]: 'pending',
+      },
+      {
+        $set: {
+          [`status.${token}`]: 'accepted',
+        },
+      },
+    );
+  }
 }

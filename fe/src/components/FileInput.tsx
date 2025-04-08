@@ -18,6 +18,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
     const [uploadedId, setUploadedId] = useState<string>();
     const [file, setFile] = useState<File>();
     const inputRef = useRef<HTMLInputElement>(null);
+    const [isSendingInvite, setIsSendingInvite] = useState(false);
 
 
     const uploadFileCallback = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +44,10 @@ export function FileInput({ownerEmail}: FileInputProps) {
             return;
         }
 
+        // NOTE: Could use something like tanstack 
+        setIsSendingInvite(true)
         await sendInvites(ownerEmail, allEmails, uploadedId, file.name)
+        setIsSendingInvite(false);
     }, [uploadedId, file, ownerEmail])
 
     if (!ownerEmail) {
@@ -77,7 +81,8 @@ export function FileInput({ownerEmail}: FileInputProps) {
                     <div className="flex flex-col mt-8 gap-y-2">
                         <Input ref={inputRef} id="send-invite" type="text"
                                placeholder="Enter valid email addresses; separate using commas(,)"/>
-                        <Button className="w-full" onClick={sendEmailInvites}>Send invites</Button>
+                        <Button className="w-full cursor-pointer"
+                                onClick={sendEmailInvites}>{isSendingInvite ? 'Sending...' : 'Send invites'}</Button>
                     </div>}
             </div>
         </div>

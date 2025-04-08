@@ -47,7 +47,7 @@ export class EmailService {
               Data: `Signer:\n
                     You have been invited to sign ${fileName} by : ${ownerEmail}.\n
                     Please click on the link to view the document: ${data.url}. \n
-                    Please click the link to accept it: ${config.baseUrl}?pathId=${pathId}&fileName=${fileName}&token=${hash(eachEmail)}`, // Accepting: Basic form of signing
+                    Please click the link to accept it: ${config.baseUrl}/accept?pathId=${pathId}&fileName=${fileName}&token=${hash(eachEmail)}`, // Accepting: Basic form of signing
 
               Charset: 'UTF-8',
             },

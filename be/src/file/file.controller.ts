@@ -42,4 +42,13 @@ export class FileController {
     const { ownerEmail, invites, pathId, fileName } = body;
     return this.fileService.addRecord(ownerEmail, invites, pathId, fileName);
   }
+
+  @Get('accept')
+  @HttpCode(HttpStatus.OK)
+  async acceptFileInvite(
+    @Query('pathId') pathId,
+    @Query('token') token: string,
+  ) {
+    return this.fileService.accept(pathId, token);
+  }
 }

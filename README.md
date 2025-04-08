@@ -22,4 +22,22 @@ via the links sent to his email
             - AWS EC2
             - AWS S3
             - AWS Document dbs
-            - Elastic IPS, Security Groups, VPCs 
+            - Elastic IPS, Security Groups, VPCs
+
+## Diagrams and screenshots:
+
+- Basic architecture:
+
+![Architecture](images/img_4.png)
+
+- Application flow:
+
+![Application flow](images/application_flow.png)
+
+- Screenshots:
+
+![screenshot](images/img_2.png)
+
+![screenshot2](images/list_pdfs.png)
+
+![screenshot3](images/img_3.png)

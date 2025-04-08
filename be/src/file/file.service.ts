@@ -25,12 +25,15 @@ export class FileService {
   }
 
   async getRecords(ownerEmail: string) {
-    return await this.dbService.db.collection('records').findOne(
-      {
-        ownerEmail,
-      },
-      { projection: { fileName: 1, status: 1, _id: 0 } },
-    );
+    return this.dbService.db
+      .collection('records')
+      .find(
+        {
+          ownerEmail,
+        },
+        { projection: { fileName: 1, status: 1, _id: 0 } },
+      )
+      .toArray();
   }
 
   async getPresignedUploadUrl(filename: string) {

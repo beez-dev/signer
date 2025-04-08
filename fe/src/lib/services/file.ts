@@ -69,3 +69,16 @@ export async function acceptInvite(pathId: string, token: string) {
         throw Error('File upload failed.');
     }
 }
+
+export async function getAllRecords(ownerEmail: string) {
+    const response = await fetch(
+        `${apiUrl}/file/records?ownerEmail=${ownerEmail}`,
+    );
+
+    if (!response.ok) {
+        console.error('File upload failed.');
+        throw Error('File upload failed.');
+    }
+
+    return response.json();
+}

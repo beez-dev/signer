@@ -2,7 +2,7 @@ import config from '../config';
 
 const {url: apiUrl} = config;
 
-export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>, ownerEmail: string) {
+export async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
     try {
         const input = e.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) {

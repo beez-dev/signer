@@ -30,7 +30,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
     const uploadFileCallback = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
         // Simple implementation to indicate uploading state
         setUploadState(true);
-        const id = await uploadFile(e, ownerEmail);
+        const id = await uploadFile(e);
         setUploadedId(id);
         setFile(e?.target?.files?.[0] as File);
         setUploadState(false)

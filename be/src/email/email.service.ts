@@ -57,7 +57,7 @@ export class EmailService {
 
       // could be optimized
       const command = new SendEmailCommand(input);
-      return this.client.send(command);
+      await this.client.send(command);
     }
   }
 }

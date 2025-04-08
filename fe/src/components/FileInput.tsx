@@ -33,7 +33,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
     const sendEmailInvites = useCallback(async () => {
 
         const values = inputRef?.current?.value ?? '';
-        const allEmails = values.split(',').filter(e => e);
+        const allEmails = values.split(',').filter(e => e).map(e => e.trim());
 
         if (!file || !uploadedId || allEmails.length === 0) {
             return;
@@ -44,7 +44,7 @@ export function FileInput({ownerEmail}: FileInputProps) {
             return;
         }
 
-        // NOTE: Could use something like tanstack 
+        // NOTE: Could use something like tanstack
         setIsSendingInvite(true)
         await sendInvites(ownerEmail, allEmails, uploadedId, file.name)
         setIsSendingInvite(false);

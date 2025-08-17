@@ -15,6 +15,7 @@ import {
     Users,
     CheckCircle,
     Clock,
+    Search,
 } from 'lucide-react';
 
 type FileInputProps = {
@@ -27,6 +28,7 @@ export function FileInput({ ownerEmail }: FileInputProps) {
     const [file, setFile] = useState<File>();
     const inputRef = useRef<HTMLInputElement>(null);
     const [isSendingInvite, setIsSendingInvite] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [allRecords, setAllRecords] = useState<
         { fileName: string; status: Record<string, string> }[]
     >([]);
@@ -178,74 +180,109 @@ export function FileInput({ ownerEmail }: FileInputProps) {
                     <h3 className="text-xl font-semibold text-white mb-4">
                         Your Documents
                     </h3>
-                    {allRecords.map((eachRecord, idx) => {
-                        const acceptedCount = Object.values(
-                            eachRecord.status,
-                        ).filter((e) => e === 'accepted').length;
-                        const totalCount = Object.values(
-                            eachRecord.status,
-                        ).length;
-                        const isCompleted = acceptedCount === totalCount;
 
-                        return (
-                            <div
-                                key={idx}
-                                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-200"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-4">
-                                        <div
-                                            className={`h-12 w-12 rounded-lg flex items-center justify-center ${
-                                                isCompleted
-                                                    ? 'bg-green-500/20'
-                                                    : 'bg-blue-500/20'
-                                            }`}
-                                        >
-                                            <FileText
-                                                className={`h-6 w-6 ${
+                    {/* Search Bar */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Input
+                            type="text"
+                            placeholder="Search documents by name..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    {/* Filtered Records */}
+                    {(() => {
+                        const filteredRecords = allRecords.filter((record) =>
+                            record.fileName
+                                .toLowerCase()
+                                .includes(searchTerm.toLowerCase()),
+                        );
+
+                        if (filteredRecords.length === 0) {
+                            return (
+                                <div className="text-center py-8">
+                                    <FileText className="h-12 w-12 text-gray-500 mx-auto mb-3" />
+                                    <p className="text-gray-400 text-lg">
+                                        {searchTerm
+                                            ? 'No documents found matching your search.'
+                                            : 'No documents uploaded yet.'}
+                                    </p>
+                                </div>
+                            );
+                        }
+
+                        return filteredRecords.map((eachRecord, idx) => {
+                            const acceptedCount = Object.values(
+                                eachRecord.status,
+                            ).filter((e) => e === 'accepted').length;
+                            const totalCount = Object.values(
+                                eachRecord.status,
+                            ).length;
+                            const isCompleted = acceptedCount === totalCount;
+
+                            return (
+                                <div
+                                    key={idx}
+                                    className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-200"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div
+                                                className={`h-12 w-12 rounded-lg flex items-center justify-center ${
                                                     isCompleted
-                                                        ? 'text-green-400'
-                                                        : 'text-blue-400'
+                                                        ? 'bg-green-500/20'
+                                                        : 'bg-blue-500/20'
                                                 }`}
-                                            />
+                                            >
+                                                <FileText
+                                                    className={`h-6 w-6 ${
+                                                        isCompleted
+                                                            ? 'text-green-400'
+                                                            : 'text-blue-400'
+                                                    }`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-white font-medium text-lg">
+                                                    {eachRecord.fileName}
+                                                </h4>
+                                                <p className="text-gray-400">
+                                                    {acceptedCount} out of{' '}
+                                                    {totalCount} people have
+                                                    accepted invitation
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h4 className="text-white font-medium text-lg">
-                                                {eachRecord.fileName}
-                                            </h4>
-                                            <p className="text-gray-400">
-                                                {acceptedCount} out of{' '}
-                                                {totalCount} people have
-                                                accepted invitation
-                                            </p>
-                                        </div>
-                                    </div>
 
-                                    <div className="text-right">
-                                        <span
-                                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                                                isCompleted
-                                                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                                    : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                                            }`}
-                                        >
-                                            {isCompleted ? (
-                                                <>
-                                                    <CheckCircle className="h-3 w-3 mr-1" />
-                                                    Completed
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Clock className="h-3 w-3 mr-1" />
-                                                    Pending
-                                                </>
-                                            )}
-                                        </span>
+                                        <div className="text-right">
+                                            <span
+                                                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                                                    isCompleted
+                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                        : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+                                                }`}
+                                            >
+                                                {isCompleted ? (
+                                                    <>
+                                                        <CheckCircle className="h-3 w-3 mr-1" />
+                                                        Completed
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Clock className="h-3 w-3 mr-1" />
+                                                        Pending
+                                                    </>
+                                                )}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        });
+                    })()}
                 </div>
             )}
         </div>

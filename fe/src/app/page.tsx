@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { AuthForm } from '@/components/AuthForm';
 import { FileInput } from '@/components/FileInput';
 import { Button } from '@/components/ui/button';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, FileText, Upload, CheckCircle, Clock } from 'lucide-react';
 import { AuthResponse } from '@/lib/services/auth';
 
 export default function Home() {
@@ -44,8 +44,11 @@ export default function Home() {
 
     if (isLoading) {
         return (
-            <div className="h-screen bg-gray-900 flex items-center justify-center overflow-hidden">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center overflow-hidden">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
+                    <p className="text-gray-300 text-lg">Loading...</p>
+                </div>
             </div>
         );
     }
@@ -55,48 +58,42 @@ export default function Home() {
     }
 
     return (
-        <div className="h-screen bg-gray-900 overflow-hidden">
-            {/* Header */}
-            <header className="bg-gray-800 shadow-sm border-b border-gray-700">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center space-x-3">
-                            <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                                <svg
-                                    className="h-5 w-5 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                    />
-                                </svg>
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+            {/* Modern Header */}
+            <header className="bg-white/5 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-4">
+                            <div className="h-10 w-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <FileText className="h-6 w-6 text-white" />
                             </div>
-                            <h1 className="text-xl font-bold text-white">
-                                Document Signer
-                            </h1>
+                            <div>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                    Document Signer
+                                </h1>
+                                <p className="text-gray-400 text-sm">
+                                    Professional Document Management
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2 text-sm text-gray-300">
-                                <User className="h-4 w-4" />
-                                <span>{authData.user.name}</span>
-                                <span className="text-gray-500">
-                                    ({authData.user.email})
-                                </span>
+                        <div className="flex items-center space-x-6">
+                            <div className="text-right">
+                                <p className="text-white font-medium">
+                                    {authData.user.name}
+                                </p>
+                                <p className="text-gray-400 text-sm">
+                                    {authData.user.email}
+                                </p>
                             </div>
                             <Button
                                 onClick={handleLogout}
                                 variant="outline"
                                 size="sm"
-                                className="flex items-center space-x-2"
+                                className="border-white/40 text-white bg-white/10 hover:bg-white/20 hover:border-white/60 transition-all duration-200 font-medium"
                             >
-                                <LogOut className="h-4 w-4" />
-                                <span>Logout</span>
+                                <LogOut className="h-4 w-4 mr-2" />
+                                Logout
                             </Button>
                         </div>
                     </div>
@@ -104,17 +101,51 @@ export default function Home() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-4rem)] overflow-y-auto">
+            <main className="max-w-7xl mx-auto px-6 py-8">
+                {/* Welcome Section */}
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-2">
-                        Welcome back, {authData.user.name}!
-                    </h2>
-                    <p className="text-gray-300">
-                        Manage your documents and send signature invitations.
-                    </p>
+                    <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-8 border border-white/10 backdrop-blur-sm">
+                        <h2 className="text-4xl font-bold text-white mb-3">
+                            Welcome back, {authData.user.name}! 👋
+                        </h2>
+                        <p className="text-xl text-gray-300 leading-relaxed">
+                            Manage your documents and send signature invitations
+                            with our secure platform.
+                        </p>
+                        <div className="flex items-center space-x-6 mt-6">
+                            <div className="flex items-center space-x-2 text-blue-400">
+                                <CheckCircle className="h-5 w-5" />
+                                <span className="text-sm font-medium">
+                                    Secure & Encrypted
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-purple-400">
+                                <Clock className="h-5 w-5" />
+                                <span className="text-sm font-medium">
+                                    Real-time Updates
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <FileInput ownerEmail={authData.user.email} />
+                {/* File Upload Section */}
+                <div className="mb-8">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-bold text-white">
+                                Document Upload
+                            </h3>
+                            <div className="flex items-center space-x-2 text-gray-400">
+                                <Upload className="h-5 w-5" />
+                                <span className="text-sm">
+                                    Drag & Drop or Browse
+                                </span>
+                            </div>
+                        </div>
+                        <FileInput ownerEmail={authData.user.email} />
+                    </div>
+                </div>
             </main>
         </div>
     );

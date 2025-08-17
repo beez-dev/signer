@@ -99,20 +99,29 @@ export function FileInput({ ownerEmail }: FileInputProps) {
                             <h3 className="text-xl font-semibold text-white mb-2">
                                 Upload your document
                             </h3>
-                            <p className="text-gray-400 mb-6">
-                                Drag and drop your file here, or click to browse
-                            </p>
 
-                            <Input
-                                id="file-upload"
-                                type="file"
-                                className={cn(
-                                    'cursor-pointer max-w-xs mx-auto bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500',
-                                )}
-                                placeholder="Select files"
-                                multiple={false}
-                                onChange={uploadFileCallback}
-                            />
+                            <div className="relative">
+                                <Input
+                                    id="file-upload"
+                                    type="file"
+                                    className={cn(
+                                        'cursor-pointer w-full max-w-md mx-auto bg-blue-600 hover:bg-blue-700 border-blue-500 text-white focus:border-blue-400 focus:ring-blue-400 transition-all duration-200 font-medium h-14 text-lg',
+                                        'file:bg-transparent file:border-0 file:text-transparent file:placeholder-transparent',
+                                        'placeholder:text-transparent',
+                                        'text-transparent',
+                                    )}
+                                    multiple={false}
+                                    onChange={uploadFileCallback}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div className="flex items-center space-x-3">
+                                        <Upload className="h-6 w-6 text-white" />
+                                        <span className="text-white font-semibold text-lg">
+                                            Browse Files
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {uploadState && (

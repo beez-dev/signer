@@ -138,9 +138,7 @@ export default function Home() {
                             </h3>
                             <div className="flex items-center space-x-2 text-gray-400">
                                 <Upload className="h-5 w-5" />
-                                <span className="text-sm">
-                                    Drag & Drop or Browse
-                                </span>
+                                <span className="text-sm">File Upload</span>
                             </div>
                         </div>
                         <FileInput ownerEmail={authData.user.email} />

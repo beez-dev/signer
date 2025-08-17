@@ -69,10 +69,10 @@ export default function Home() {
                             </div>
                             <div>
                                 <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                                    Document Signer
+                                    Signer
                                 </h1>
                                 <p className="text-gray-400 text-sm">
-                                    Professional Document Management
+                                    Professional Signing Platform
                                 </p>
                             </div>
                         </div>

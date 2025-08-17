@@ -83,20 +83,19 @@ export function AuthForm({ onAuthSuccess }: AuthFormProps) {
                             <FileText className="h-6 w-6 text-white" />
                         </div>
                         <span className="text-2xl font-bold text-white">
-                            DocumentSigner
+                            Signer
                         </span>
                     </div>
 
                     <div className="h-full">
                         <div className="space-y-6">
                             <div className="text-4xl font-bold text-white leading-tight">
-                                Professional Document
+                                Professional
                                 <br />
                                 Signing Application
                             </div>
                             <div className="text-xl text-gray-300">
-                                Secure and efficient document management
-                                platform
+                                Secure and efficient signing platform
                             </div>
                         </div>
                     </div>
@@ -113,7 +112,7 @@ export function AuthForm({ onAuthSuccess }: AuthFormProps) {
                                 <FileText className="h-7 w-7 text-white" />
                             </div>
                             <span className="text-2xl font-bold text-white">
-                                DocumentSigner
+                                Signer
                             </span>
                         </div>
                     </div>
@@ -126,7 +125,7 @@ export function AuthForm({ onAuthSuccess }: AuthFormProps) {
                         <p className="text-gray-400 text-lg">
                             {isSignup
                                 ? 'Sign up to start managing your documents securely'
-                                : 'Log in to continue to DocumentSigner'}
+                                : 'Log in to continue to Signer'}
                         </p>
                     </div>
 

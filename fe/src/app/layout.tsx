@@ -28,12 +28,8 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} `}>
                 <ToastProvider>
-                    <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start ">
-                        <Header />
-                        <div className="w-full h-full flex items-center justify-center">
-                            {children}
-                        </div>
-                    </main>
+                    <Header />
+                    <main className="w-full">{children}</main>
                 </ToastProvider>
             </body>
         </html>

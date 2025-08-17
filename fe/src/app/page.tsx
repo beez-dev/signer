@@ -44,7 +44,7 @@ export default function Home() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center">
+            <div className="h-screen bg-gray-900 flex items-center justify-center overflow-hidden">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
         );
@@ -55,13 +55,13 @@ export default function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        <div className="h-screen bg-gray-900 overflow-hidden">
             {/* Header */}
-            <header className="bg-white shadow-sm border-b border-gray-200">
+            <header className="bg-gray-800 shadow-sm border-b border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center space-x-3">
-                            <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                            <div className="h-8 w-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
                                 <svg
                                     className="h-5 w-5 text-white"
                                     fill="none"
@@ -76,16 +76,16 @@ export default function Home() {
                                     />
                                 </svg>
                             </div>
-                            <h1 className="text-xl font-bold text-gray-900">
+                            <h1 className="text-xl font-bold text-white">
                                 Document Signer
                             </h1>
                         </div>
 
                         <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <div className="flex items-center space-x-2 text-sm text-gray-300">
                                 <User className="h-4 w-4" />
                                 <span>{authData.user.name}</span>
-                                <span className="text-gray-400">
+                                <span className="text-gray-500">
                                     ({authData.user.email})
                                 </span>
                             </div>
@@ -104,12 +104,12 @@ export default function Home() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-4rem)] overflow-y-auto">
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-2xl font-bold text-white mb-2">
                         Welcome back, {authData.user.name}!
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-300">
                         Manage your documents and send signature invitations.
                     </p>
                 </div>

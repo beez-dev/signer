@@ -1,6 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    ReactNode,
+} from 'react';
 import { CheckCircle, XCircle, X } from 'lucide-react';
 import { cn } from '@/lib/utils/css';
 
@@ -15,13 +21,14 @@ export function Toast({ message, type, onClose, duration = 5000 }: ToastProps) {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
+        console.log(`Toast displayed: ${message} (${type})`); // Debug log
         const timer = setTimeout(() => {
             setIsVisible(false);
             setTimeout(onClose, 300); // Wait for fade out animation
         }, duration);
 
         return () => clearTimeout(timer);
-    }, [duration, onClose]);
+    }, [duration, onClose, message, type]);
 
     const handleClose = () => {
         setIsVisible(false);
@@ -31,12 +38,13 @@ export function Toast({ message, type, onClose, duration = 5000 }: ToastProps) {
     return (
         <div
             className={cn(
-                'fixed top-4 right-4 z-50 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 transition-all duration-300 transform',
+                'fixed top-4 right-4 z-[9999] max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 transition-all duration-300 transform',
                 type === 'success' ? 'border-green-500' : 'border-red-500',
                 isVisible
                     ? 'translate-x-0 opacity-100'
                     : 'translate-x-full opacity-0',
             )}
+            style={{ zIndex: 9999 }}
         >
             <div className="flex items-start p-4">
                 <div className="flex-shrink-0">
@@ -80,32 +88,43 @@ interface ToastContextType {
     showToast: (message: string, type: 'success' | 'error') => void;
 }
 
+const ToastContext = createContext<ToastContextType | undefined>(undefined);
+
 export const useToast = (): ToastContextType => {
+    const context = useContext(ToastContext);
+    if (!context) {
+        throw new Error('useToast must be used within a ToastProvider');
+    }
+    return context;
+};
+
+interface ToastProviderProps {
+    children: ReactNode;
+}
+
+export function ToastProvider({ children }: ToastProviderProps) {
     const [toasts, setToasts] = useState<
         Array<{ id: string; message: string; type: 'success' | 'error' }>
     >([]);
 
     const showToast = (message: string, type: 'success' | 'error') => {
+        console.log(`showToast called: ${message} (${type})`); // Debug log
         const id = Math.random().toString(36).substr(2, 9);
-        setToasts((prev) => [...prev, { id, message, type }]);
+        setToasts((prev) => {
+            console.log(`Adding toast: ${message} (${type})`); // Debug log
+            return [...prev, { id, message, type }];
+        });
     };
 
     const removeToast = (id: string) => {
         setToasts((prev) => prev.filter((toast) => toast.id !== id));
     };
 
-    return {
-        showToast,
-        toasts,
-        removeToast,
-    };
-};
-
-export function ToastContainer() {
-    const { toasts, removeToast } = useToast();
+    console.log(`ToastProvider render - current toasts:`, toasts); // Debug log
 
     return (
-        <>
+        <ToastContext.Provider value={{ showToast }}>
+            {children}
             {toasts.map((toast) => (
                 <Toast
                     key={toast.id}
@@ -114,7 +133,6 @@ export function ToastContainer() {
                     onClose={() => removeToast(toast.id)}
                 />
             ))}
-        </>
+        </ToastContext.Provider>
     );
 }
-

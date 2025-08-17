@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001';
 
 export interface AuthResponse {
     token: string;
@@ -27,8 +27,20 @@ export async function signup(
     });
 
     if (!response.ok) {
-        const errorText = await response.text();
         let errorMessage = 'Signup failed';
+
+        try {
+            const errorData = await response.json();
+            if (errorData.message) {
+                errorMessage = errorData.message;
+            }
+        } catch {
+            // If response is not JSON, try to read as text
+            const errorText = await response.text();
+            if (errorText) {
+                errorMessage = errorText;
+            }
+        }
 
         if (response.status === 409) {
             errorMessage = 'User already exists';
@@ -55,8 +67,20 @@ export async function signin(
     });
 
     if (!response.ok) {
-        const errorText = await response.text();
         let errorMessage = 'Signin failed';
+
+        try {
+            const errorData = await response.json();
+            if (errorData.message) {
+                errorMessage = errorData.message;
+            }
+        } catch {
+            // If response is not JSON, try to read as text
+            const errorText = await response.text();
+            if (errorText) {
+                errorMessage = errorText;
+            }
+        }
 
         if (response.status === 401) {
             errorMessage = 'Invalid credentials';

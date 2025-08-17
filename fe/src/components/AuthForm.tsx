@@ -38,8 +38,10 @@ export function AuthForm({ onAuthSuccess }: AuthFormProps) {
 
             onAuthSuccess(authData);
         } catch (err) {
+            console.log('AuthForm error caught:', err); // Debug log
             const errorMessage =
                 err instanceof Error ? err.message : 'Authentication failed';
+            console.log('Showing error toast:', errorMessage); // Debug log
             showToast(errorMessage, 'error');
         } finally {
             setIsLoading(false);
